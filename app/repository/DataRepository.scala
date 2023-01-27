@@ -17,7 +17,7 @@ class DataRepository @Inject()(
   mongoComponent = mongoComponent,
   domainFormat = User.formats,
   indexes = Seq(IndexModel(
-    Indexes.ascending("username"), IndexOptions().unique(true)
+    Indexes.ascending("username"), new IndexOptions().unique(true)
   )),
   replaceIndexes = false
 ) {
