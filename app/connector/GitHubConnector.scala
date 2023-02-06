@@ -1,6 +1,6 @@
 package connector
 
-import cats.data.{EitherT, RWS}
+import cats.data.EitherT
 import model.{APIError, User}
 import play.api.libs.json.{JsError, JsSuccess, OFormat}
 import play.api.libs.ws.WSClient
@@ -16,11 +16,11 @@ class GitHubConnector @Inject()(ws: WSClient) {
       response.map {
         result =>
           result.json.validate[User] match {
-            case JsSuccess(returnedUser, _) => Right(User(returnedUser.username,
+            case JsSuccess(returnedUser, _) => Right(User(returnedUser.login,
+              returnedUser.created_at,
               returnedUser.location,
-              returnedUser.dateAccountCreated,
-              returnedUser.numberOfFollowers,
-              returnedUser.numberFollowing))
+              returnedUser.followers,
+              returnedUser.following))
             case JsError(errors) => Left(APIError.BadAPIResponse(500, "Not found"))
           }
       }

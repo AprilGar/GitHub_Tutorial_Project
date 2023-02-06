@@ -1,4 +1,8 @@
-GET     /findUser/:username     controllers.ApplicationController.findUser(username: String)
+GET     /github/users/:username     controllers.ApplicationController.getGithubUser(username: String)
+POST    /create                     controllers.ApplicationController.create
+GET     /read/:login                controllers.ApplicationController.read(login: String)
+PUT     /update/:login              controllers.ApplicationController.update(login: String)
+DELETE  /delete/:login              controllers.ApplicationController.delete(login: String)
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index()
