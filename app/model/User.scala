@@ -3,11 +3,11 @@ package model
 import play.api.libs.json.{Json, OFormat}
 
 case class User(
-                 username: String,
-                 dateAccountCreated: String,
-                 location: String,
-                 numberOfFollowers: Int,
-                 numberFollowing: Int
+                 login: String,
+                 created_at: String,
+                 location: Option[String],
+                 followers: Int,
+                 following: Int
                )
 
 object User {
