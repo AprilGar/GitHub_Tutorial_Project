@@ -1,12 +1,22 @@
 package repository
 
+import com.google.inject.ImplementedBy
 import model.{APIError, User}
 import org.mongodb.scala.bson.conversions.Bson
 import org.mongodb.scala.model._
 import uk.gov.hmrc.mongo.MongoComponent
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
+
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
+
+@ImplementedBy(classOf[DataRepository])
+trait DataRepoTrait {
+  def create(user: User): Future[Either[APIError, User]]
+  def read(login: String): Future[Either[APIError, User]]
+  def update(login: String, user: User): Future[Either[APIError.BadAPIResponse, User]]
+  def delete(login: String): Future[Either[APIError, String]]
+}
 
 @Singleton
 class DataRepository @Inject()(
@@ -19,7 +29,7 @@ class DataRepository @Inject()(
     Indexes.ascending("login"), new IndexOptions().unique(true)
   )),
   replaceIndexes = false
-) {
+) with DataRepoTrait {
 
   def create(user: User): Future[Either[APIError, User]] =
     collection.insertOne(user).toFutureOption()
