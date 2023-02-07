@@ -44,7 +44,7 @@ class DataRepository @Inject()(
     )
 
   def read(login: String): Future[Either[APIError, User]] =
-    collection.find(byLogin(login)).headOption flatMap {
+    collection.find(byLogin(login)).headOption() flatMap {
       case Some(data) => Future(Right(data))
       case _ => Future(Left(APIError.BadAPIResponse(400, "User cannot be read")))
     }
@@ -65,5 +65,8 @@ class DataRepository @Inject()(
       case Some(result) if result.getDeletedCount == 1 => Right("user deleted")
       case _ => Left(APIError.BadAPIResponse(400, "User cannot be deleted"))
     }
+
+  def deleteAll(): Future[Unit] =
+    collection.deleteMany(Filters.empty()).toFuture().map(_ => ())
 
 }
