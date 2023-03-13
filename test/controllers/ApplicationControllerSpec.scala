@@ -2,15 +2,15 @@ package controllers
 
 import baseSpec.BaseSpecWithApplication
 import model.User
+import play.api.http.Status
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AnyContent, AnyContentAsEmpty, Result}
-import play.api.http.Status
-import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsJson, defaultAwaitTimeout, status}
+import play.api.test._
 
 import scala.concurrent.Future
 
-class ApplicationControllerSpec extends BaseSpecWithApplication{
+class ApplicationControllerSpec extends BaseSpecWithApplication with Injecting {
 
   val TestApplicationController = new ApplicationController(component, service, executionContext, repository)
 
@@ -119,5 +119,20 @@ class ApplicationControllerSpec extends BaseSpecWithApplication{
       status(deleteResponse) shouldBe Status.INTERNAL_SERVER_ERROR
     }
   }
+
+  "ApplicationController .getRepositories" should {
+
+//    "display a list of user repositories" in {
+//
+//    }
+
+    "not display a list of user repositories if user cannot be found" in {
+      val getRepoRequest = buildGet("/github/users/login4/repositories")
+      val getRepoResponse = TestApplicationController.getRepositories("login4")(getRepoRequest)
+      status(getRepoResponse) shouldBe Status.INTERNAL_SERVER_ERROR
+    }
+
+  }
+
 
 }

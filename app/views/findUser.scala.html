@@ -4,12 +4,15 @@
 
 @main("Find User") {
 
-<h1>GitHub API Project</h1>
+<h1>GitHub User</h1>
 <ul>
     <li>Username: @user.login</li>
-    <li>@user.created_at</li>
-    <li>@user.location</li>
-    <li>@user.followers</li>
-    <li>@user.following</li>
+    <li>Created: @user.created_at</li>
+    <li>Location (optional): @user.location</li>
+    <li>Followers: @user.followers</li>
+    <li>Following: @user.following</li>
 </ul>
+
+<a href="@controllers.routes.ApplicationController.getRepositories(user.login)">Show repositories</a>
+
 }

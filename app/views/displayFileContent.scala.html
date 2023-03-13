@@ -1,0 +1,11 @@
+@import model.FileContent
+
+@(fileContent: FileContent)
+
+@main("File content") {
+  <ul>
+    <li>Name: @fileContent.name</li>
+    <li>File content: @fileContent.content</li>
+  </ul>
+
+}

@@ -1,0 +1,22 @@
+@import model.RepoContent
+@import model.Repos
+
+@(repoContent: Seq[RepoContent], repoName: String, login: String)
+
+@main("Repository content") {
+
+@repoContent.map {repoContent =>
+    @if({repoContent.`type`}== "dir") {
+            <li><a href="@controllers.routes.ApplicationController.folderContent(login, repoName, repoContent.path)">Name: @repoContent.name</a></li>
+            <li>Type: @{repoContent.`type`}</li>
+            <li>Path: @repoContent.path</li>
+
+} else {
+            <li><a href="@controllers.routes.ApplicationController.fileContent(login, repoName, repoContent.path)">Name: @repoContent.name</a></li>
+            <li>Type: @{repoContent.`type`}</li>
+    }                                                            
+}
+
+
+
+}

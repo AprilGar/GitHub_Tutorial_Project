@@ -1,0 +1,21 @@
+@import model.Repos
+
+@(repos: Seq[Repos])
+
+@main("Find Repositories") {
+    @repos.map { repo =>
+            <ul>
+                <li>Repository name: @repo.name</li>
+                <ul>
+                    <li>Description: @repo.description</li>
+                    <li>Private: @{repo.`private`}</li>
+                    <li>Owner: @repo.owner.login</li>
+                    <li>Watchers: @repo.watchers_count</li>
+                    <li>Fork count: @repo.forks_count</li>
+                    <li><a href="@controllers.routes.ApplicationController.getRepoInfo(repo.owner.login, repo.name)">Show folders</a></li>
+                </ul>
+            </ul>
+    }
+}
+
+
